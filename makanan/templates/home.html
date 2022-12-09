@@ -1,0 +1,72 @@
+{% extends "base.html" %} 
+{% block title %}Home{% endblock title %}
+{% block content %}
+<br />
+<div class="row">
+    <h1 class="text-center my-4">Cari Makanan Mu <i class="bi bi-shop-window"></i></h1>
+  <div class="col-12">
+    <div class="row">
+      <div class="col-12 mt-3">
+        <p class="mb-2">Kantin:</p>
+        <a class="btn btn-primary" href="{% url 'home' %}">Semua</a>
+        {% for kantin in kantins %}
+        <a class="btn btn-primary" href="?kantin_id={{ kantin.id }}">{{ kantin.nama }}</a>
+        {% endfor %}
+      </div>
+    </div>
+    <div class="row justify-content-center mt-4">
+        <div class="col-8">
+            <div class="my-3">
+                <form action="">
+                    <div class="mb-3">
+          <label class="form-label">Cari Makanan <i class="bi bi-search"></i> :</label>
+          <input type="text" autocomplete="off" placeholder="Cari Nama Makanan"  name="nama" class="form-control" />
+        </div>
+        <div class="text-center">
+            <button onclick="preventDefault()" type="submit" class="btn btn-primary ">Search <i class="bi bi-search "></i> </button>
+        </div>
+      </form>
+    </div>
+</div>
+</div>
+    <div class="">
+      <p class="mb-0">
+        {% if searchJudul %}Pencarian untuk
+        <strong>{{ searchJudul }} :</strong>{% endif %}
+      </p>
+    </div>
+    <br />
+
+    <div class="row justify-content-center g-4">
+      {% for makanan in makanans %}
+      <div class="col-lg-3 col-md-5 col-10 ">
+        <div class="card">
+          <img alt="" class="card-img" src="{{ makanan.gambar.url }}" />
+          <div class="card-body">
+            <h5 class="card-title fw-bold">
+                {{ makanan.nama }} 
+            </h5>
+            <h6 >{{ book.author }}</h6>
+            <p class="mb-0">Kantin : {{ makanan.kantin }}</p>
+            <p class="mb-0">Stok : {{ makanan.stok }}</p>
+            <p class="mb-0">Harga : Rp. <script>document.write("{{makanan.harga}}".toLocaleString() )</script> </p>
+            <p class="mb-3">Status : <span style="color: green;">     
+                {% if makanan.tersedia == '1' %}
+                    Tersedia
+                {% else %}
+                    Tidak Tersedia
+                {% endif %}
+            </span>
+            </p>
+            <div class="text-end">
+                <a class="btn btn-primary w-50" href="{% url 'detail' makanan.id %}">Detail</a>
+                <a class="btn btn-primary bi-h" href="{% url 'detail' makanan.id %}"><i class="bi bi-heart"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock content %}
